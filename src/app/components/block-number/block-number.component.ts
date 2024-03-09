@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlchemyService } from '../alchemy.service';
+import { AlchemyService } from '../../services/alchemy.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

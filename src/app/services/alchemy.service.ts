@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Network, Alchemy } from 'alchemy-sdk';
-import { environment } from './../environments/environment'; // Import environment
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -32,4 +32,25 @@ export class AlchemyService {
       return null;
     }
   }
+
+
+  async getBalanceOf(ownerAddress: string, tokenContract: string): Promise<any> {
+    if (!this.alchemy) {
+      return null;
+    }
+
+    try {
+      const tokenBalance = this.alchemy.core.getTokenBalances(
+        ownerAddress,
+        [tokenContract]
+      );
+      return (await tokenBalance).tokenBalances[0].tokenBalance;
+    } catch (error) {
+      console.error('Error fetching block number:', error);
+      return null;
+    }
+
+  }
+
+
 }
