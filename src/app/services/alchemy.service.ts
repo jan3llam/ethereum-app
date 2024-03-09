@@ -19,7 +19,7 @@ export class AlchemyService {
     }
   }
 
-  async getLatestBlockNumber(): Promise<Number | null> {
+  async getLatestBlockNumber(): Promise<number | null> {
     if (!this.alchemy) {
       return null;
     }
@@ -33,24 +33,18 @@ export class AlchemyService {
     }
   }
 
-
-  async getBalanceOf(ownerAddress: string, tokenContract: string): Promise<any> {
+  async getBalanceOf<T extends { tokenBalance: any }>(ownerAddress: string, tokenContract: string): Promise<T['tokenBalance'] | null> {
     if (!this.alchemy) {
       return null;
     }
 
     try {
-      const tokenBalance = this.alchemy.core.getTokenBalances(
-        ownerAddress,
-        [tokenContract]
-      );
-      return (await tokenBalance).tokenBalances[0].tokenBalance;
+      const tokenBalance = await this.alchemy.core.getTokenBalances(ownerAddress, [tokenContract]);
+
+      return tokenBalance.tokenBalances[0]?.tokenBalance;
     } catch (error) {
-      console.error('Error fetching block number:', error);
+      console.error('Error fetching balance:', error);
       return null;
     }
-
   }
-
-
 }

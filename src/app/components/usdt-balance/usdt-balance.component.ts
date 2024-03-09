@@ -16,9 +16,9 @@ import { environment } from '../../../environments/environment';
   styleUrl: './usdt-balance.component.css'
 })
 export class UsdtBalanceComponent implements OnInit {
-  public balanceNumber: number | any;
+  public balanceNumber: number | null = null;
   public ownerAddress: string = "";
-  public tokenBalance:any;
+  public tokenBalance:any | null = null ;
 
   constructor(private alchemyService: AlchemyService) { }
 
