@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { AlchemyService } from './alchemy.service';
 import { of } from 'rxjs';
 
@@ -69,7 +68,7 @@ describe('AlchemyService', () => {
       const mockOwnerAddress = '0x1234567890AbCdEf1234567890AbCdEf1234567890';
       const mockTokenContract = '0xABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz';
       const mockError = new Error('Service error');
-      spyOn<any>(alchemyService, 'getBalanceOf').and.throwError(mockError); // Mock error
+      spyOn<any>(alchemyService, 'getBalanceOf').and.throwError(mockError);
 
       try {
         await alchemyService.getBalanceOf<any>(mockOwnerAddress, mockTokenContract);
