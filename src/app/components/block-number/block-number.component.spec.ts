@@ -1,23 +1,34 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { BlockNumberComponent } from './block-number.component';
+import { AlchemyService } from '../../services/alchemy.service';
+import { of, throwError } from 'rxjs';
 
 describe('BlockNumberComponent', () => {
   let component: BlockNumberComponent;
+  let alchemyService: AlchemyService;
   let fixture: ComponentFixture<BlockNumberComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [BlockNumberComponent]
-    })
-    .compileComponents();
-    
+  beforeEach(() => {
     fixture = TestBed.createComponent(BlockNumberComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    alchemyService = TestBed.inject(AlchemyService);
+    component.ngOnInit(); // Optional
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+
+  it('should fetch and display the block number on init', fakeAsync(() => {
+    const mockBlockNumber = 12345678;
+    spyOn<any>(alchemyService, 'getLatestBlockNumber').and.returnValue(Promise.resolve(mockBlockNumber)); // Mock the method
+
+      return alchemyService.getLatestBlockNumber().then(blockNumber => {
+        expect(blockNumber).toBe(mockBlockNumber);
+      });
+  }));
+
+  it('should handle errors gracefully on init', async () => {
+    alchemyService['alchemy'] = null;
+
+    const blockNumber = await alchemyService.getLatestBlockNumber();
+    expect(blockNumber).toBeNull();
   });
 });

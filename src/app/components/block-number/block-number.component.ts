@@ -14,7 +14,11 @@ export class BlockNumberComponent implements OnInit {
 
   constructor(private alchemyService: AlchemyService) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit() {
+   this.getBlockNumber();
+  }
+
+  async getBlockNumber(): Promise<void> {
     const latestBlock = await this.alchemyService.getLatestBlockNumber();
     if (latestBlock) {
       this.blockNumber = latestBlock;
